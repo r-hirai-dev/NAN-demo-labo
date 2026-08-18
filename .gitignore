@@ -1,0 +1,42 @@
+# Local planning and AI tooling
+/.local/
+/AGENTS.md
+/CLAUDE.md
+/.agents/
+/.claude/
+/.codex/
+/.private/
+/drafts/
+
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.p12
+*.key
+credentials*.json
+*.tfvars
+*.tfvars.json
+!*.tfvars.example
+!*.tfvars.json.example
+
+# Dependencies and generated output
+node_modules/
+.next/
+out/
+coverage/
+playwright-report/
+test-results/
+.terraform/
+.aws-sam/
+cdk.out/
+*.tfstate
+*.tfstate.*
+*.tfplan
+*.log
+
+# Personal editor and OS state
+.vscode/
+.idea/
+.DS_Store
