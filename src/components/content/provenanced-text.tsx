@@ -8,7 +8,7 @@ interface ProvenancedTextProps {
 /**
  * Renders a text fact and, when it is a placeholder, a visible badge marking
  * it as not yet approved. This is the content boundary described in
- * STORY-001's acceptance criteria.
+ * docs/product/mvp.md's content quality bar.
  */
 export function ProvenancedText({ field }: ProvenancedTextProps) {
   return (

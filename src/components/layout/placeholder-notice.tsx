@@ -1,8 +1,9 @@
 /**
- * Every fact on the site is currently a placeholder (STORY-002 introduces
- * approved content). This banner keeps that unambiguous even though each
- * individual fact is already marked; see docs/product/mvp.md quality bar
- * ("placeholders ... must never be silently presented as real facts").
+ * Every fact on the site is currently a placeholder; real content is published
+ * only after the owner approves it. This banner keeps that unambiguous even
+ * though each individual fact is already marked; see docs/product/mvp.md
+ * quality bar ("placeholders ... must never be silently presented as real
+ * facts").
  */
 export function PlaceholderNotice() {
   return (

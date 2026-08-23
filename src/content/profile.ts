@@ -7,11 +7,11 @@ export interface Profile {
 }
 
 // Every field below is a placeholder: no real name, employer detail, or
-// biography has been approved for publication yet (tracked by STORY-002).
+// biography has been approved for publication yet.
 export const profile: Profile = {
   handle: placeholder("handle-pending-approval"),
   tagline: placeholder("Tagline pending owner approval."),
   introduction: placeholder(
-    "This introduction is placeholder text used to review the site shell's layout and navigation. Approved biography content replaces it in STORY-002."
+    "This introduction is placeholder text used to review the site shell's layout and navigation. A real biography replaces it only after the owner approves one."
   ),
 };

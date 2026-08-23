@@ -10,7 +10,7 @@ export interface ExperienceEntry {
 }
 
 // Placeholder entries only. Real experience content is an owner decision
-// deferred to STORY-002 and must never name an employer without approval.
+// and must never name an employer without approval.
 export const experienceEntries: readonly ExperienceEntry[] = [
   {
     id: "experience-placeholder-1",
@@ -18,7 +18,7 @@ export const experienceEntries: readonly ExperienceEntry[] = [
     organization: placeholder("Organization name pending approval"),
     period: placeholder("Period pending approval"),
     summary: placeholder(
-      "Experience summary pending approval. Real experience content arrives in STORY-002."
+      "Experience summary pending owner approval."
     ),
   },
   {
@@ -27,7 +27,7 @@ export const experienceEntries: readonly ExperienceEntry[] = [
     organization: placeholder("Organization name pending approval"),
     period: placeholder("Period pending approval"),
     summary: placeholder(
-      "Experience summary pending approval. Real experience content arrives in STORY-002."
+      "Experience summary pending owner approval."
     ),
   },
 ];

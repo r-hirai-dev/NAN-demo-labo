@@ -1,9 +1,10 @@
 /**
  * Every visitor-facing biographical or professional fact (profile, experience,
  * skills, projects) must declare whether it is an owner-approved public fact
- * or placeholder content awaiting approval. STORY-002 replaces placeholder
- * content with approved facts; until then, placeholder content must never be
- * presented to a visitor as if it were real (see docs/product/mvp.md).
+ * or placeholder content awaiting approval. Placeholder content is replaced
+ * with approved facts once the owner approves them; until then, placeholder
+ * content must never be presented to a visitor as if it were real (see
+ * docs/product/mvp.md).
  *
  * UI components that render a `ProvenancedField` are responsible for making
  * placeholder content visibly distinguishable (see

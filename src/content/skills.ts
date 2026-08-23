@@ -7,7 +7,7 @@ export interface SkillCategory {
   readonly items: readonly ProvenancedField<string>[];
 }
 
-// Placeholder categories only; approved skill content arrives in STORY-002.
+// Placeholder categories only; real skill content is published only after owner approval.
 export const skillCategories: readonly SkillCategory[] = [
   {
     id: "skills-placeholder-1",

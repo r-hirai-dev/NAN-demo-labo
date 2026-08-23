@@ -14,13 +14,13 @@ export interface ProjectEntry {
   readonly href: ProvenancedField<string>;
 }
 
-// Placeholder entries only; approved project content arrives in STORY-002.
+// Placeholder entries only; real project evidence is published only after owner approval.
 export const projectEntries: readonly ProjectEntry[] = [
   {
     id: "project-placeholder-1",
     name: placeholder("Project name pending approval"),
     summary: placeholder(
-      "Project summary pending approval. Real project evidence arrives in STORY-002."
+      "Project summary pending owner approval."
     ),
     href: placeholder("https://example.com/placeholder-project-1"),
   },
@@ -28,7 +28,7 @@ export const projectEntries: readonly ProjectEntry[] = [
     id: "project-placeholder-2",
     name: placeholder("Project name pending approval"),
     summary: placeholder(
-      "Project summary pending approval. Real project evidence arrives in STORY-002."
+      "Project summary pending owner approval."
     ),
     href: placeholder("https://example.com/placeholder-project-2"),
   },

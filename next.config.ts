@@ -1,6 +1,6 @@
 import type { NextConfig } from "next";
 
-// STORY-001: static export only. See docs/adr/0001-static-first-aws-hosting.md.
+// Static export only. See docs/adr/0001-static-first-aws-hosting.md.
 // - `output: "export"` produces the pre-rendered assets CloudFront/S3 will serve;
 //   no route handlers, server actions, or request-time rendering are available.
 // - `images.unoptimized` is required because static export cannot run the

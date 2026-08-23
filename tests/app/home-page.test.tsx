@@ -8,8 +8,8 @@ describe("HomePage", () => {
     render(<HomePage />);
 
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(profile.handle.value);
-    // Every field on the current Home page is a placeholder (STORY-002 adds
-    // approved content), so the boundary marker must be present at least once.
+    // Every field on the current Home page is a placeholder until the owner
+    // approves real content, so the boundary marker must be present at least once.
     expect(screen.getAllByText("Placeholder").length).toBeGreaterThan(0);
   });
 });
