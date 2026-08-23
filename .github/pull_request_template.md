@@ -1,10 +1,10 @@
 ## Outcome
 
-<!-- The item ID (EPIC/STORY/TASK) and the visitor- or contributor-facing outcome this PR delivers. -->
+<!-- The visitor- or contributor-facing outcome this PR delivers, in one or two sentences. -->
 
 ## Acceptance criteria
 
-<!-- One line per criterion from the task item, each with the evidence that satisfies it. -->
+<!-- One line per acceptance criterion this PR claims to meet, each with the evidence that satisfies it. -->
 
 | Criterion | Evidence |
 | --- | --- |
