@@ -6,9 +6,9 @@ interface ProvenancedTextProps {
 }
 
 /**
- * Renders a text fact and, when it is a placeholder, a visible badge marking
- * it as not yet approved. This is the content boundary described in
- * docs/product/mvp.md's content quality bar.
+ * テキスト情報を描画し、それがプレースホルダーである場合は未承認であることを
+ * 示す可視バッジも表示する。これは docs/product/mvp.md のコンテンツ品質基準に
+ * 記載されたコンテンツ境界にあたる。
  */
 export function ProvenancedText({ field }: ProvenancedTextProps) {
   return (

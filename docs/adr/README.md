@@ -11,8 +11,8 @@ ADRs capture durable decisions with meaningful alternatives and consequences. Th
 
 ## Index
 
-| ADR | Status | Decision |
-| --- | --- | --- |
+| ADR                                      | Status   | Decision                                                               |
+| ---------------------------------------- | -------- | ---------------------------------------------------------------------- |
 | [0001](0001-static-first-aws-hosting.md) | Proposed | Use a static-first Next.js deployment on S3 and CloudFront for the MVP |
 
 ## Template

@@ -1,6 +1,6 @@
 /**
- * Primary navigation is site chrome, not a visitor-facing biographical fact,
- * so entries do not carry a `ProvenancedField` (see src/content/provenance.ts).
+ * プライマリナビゲーションはサイトの構成要素であり、訪問者向けの経歴情報ではない
+ * ため、各項目は `ProvenancedField` を持たない（src/content/provenance.ts を参照）。
  */
 export interface NavigationItem {
   readonly href: string;

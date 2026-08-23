@@ -11,7 +11,7 @@ const REQUIRED_PUBLIC_FILES = [
   "docs/architecture/overview.md",
   "docs/adr/README.md",
   "docs/adr/0001-static-first-aws-hosting.md",
-  "docs/delivery/roadmap.md"
+  "docs/delivery/roadmap.md",
 ];
 const REQUIRED_PRIVATE_PATTERNS = [
   "/.local/",
@@ -19,7 +19,7 @@ const REQUIRED_PRIVATE_PATTERNS = [
   "/CLAUDE.md",
   ".env",
   "*.tfstate",
-  "*.tfvars"
+  "*.tfvars",
 ];
 
 const errors = [];

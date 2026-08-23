@@ -20,14 +20,14 @@ Node.js 24以上を使用します。
 npm install
 ```
 
-| コマンド | 内容 |
-| --- | --- |
-| `npm run dev` | 開発サーバーを起動 |
-| `npm run build` | 静的エクスポート（`out/`）を生成 |
-| `npm run lint` | ESLint |
-| `npm run typecheck` | TypeScript strict の型検査 |
-| `npm test` | Vitest によるユニット／コンポーネントテスト |
-| `npm run validate` | 公開ファイルと公開範囲ルールの検証 |
+| コマンド            | 内容                                        |
+| ------------------- | ------------------------------------------- |
+| `npm run dev`       | 開発サーバーを起動                          |
+| `npm run build`     | 静的エクスポート（`out/`）を生成            |
+| `npm run lint`      | ESLint                                      |
+| `npm run typecheck` | TypeScript strict の型検査                  |
+| `npm test`          | Vitest によるユニット／コンポーネントテスト |
+| `npm run validate`  | 公開ファイルと公開範囲ルールの検証          |
 
 ## Repository map
 

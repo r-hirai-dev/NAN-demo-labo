@@ -1,6 +1,6 @@
 /**
- * Visible marker rendered next to any placeholder fact so it can never be
- * mistaken for owner-approved content (see docs/product/mvp.md quality bar).
+ * プレースホルダーの情報の横に表示する可視マーカー。オーナー承認済みの情報と
+ * 誤認されないようにするためのもの（docs/product/mvp.md の品質基準を参照）。
  */
 export function PlaceholderBadge() {
   return (

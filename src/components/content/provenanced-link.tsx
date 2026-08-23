@@ -8,10 +8,10 @@ interface ProvenancedLinkProps {
 }
 
 /**
- * Renders a real, clickable link only when the destination fact is
- * owner-approved. Placeholder destinations render as plain text with a
- * visible placeholder badge instead of a link, so a visitor can never follow
- * an unapproved or illustrative URL.
+ * 遷移先の情報がオーナーによって承認されている場合のみ、実際にクリック可能な
+ * リンクを描画する。プレースホルダーの遷移先はリンクではなく、可視のプレース
+ * ホルダーバッジ付きのプレーンテキストとして描画されるため、訪問者が未承認・
+ * 例示用の URL へ遷移することはない。
  */
 export function ProvenancedLink({ field, children }: ProvenancedLinkProps) {
   if (field.provenance === "approved") {

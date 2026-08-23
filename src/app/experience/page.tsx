@@ -12,7 +12,8 @@ export default function ExperiencePage() {
         {experienceEntries.map((entry) => (
           <li key={entry.id} className="border-l-2 border-slate-200 pl-4 dark:border-slate-800">
             <h2 className="text-lg font-semibold">
-              <ProvenancedText field={entry.role} /> &middot; <ProvenancedText field={entry.organization} />
+              <ProvenancedText field={entry.role} /> &middot;{" "}
+              <ProvenancedText field={entry.organization} />
             </h2>
             <p className="text-sm text-slate-500 dark:text-slate-400">
               <ProvenancedText field={entry.period} />

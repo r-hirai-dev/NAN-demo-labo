@@ -1,14 +1,13 @@
 /**
- * Every visitor-facing biographical or professional fact (profile, experience,
- * skills, projects) must declare whether it is an owner-approved public fact
- * or placeholder content awaiting approval. Placeholder content is replaced
- * with approved facts once the owner approves them; until then, placeholder
- * content must never be presented to a visitor as if it were real (see
- * docs/product/mvp.md).
+ * 訪問者に見える経歴・職務上の情報（profile, experience, skills, projects）は
+ * すべて、オーナーが承認済みの公開情報なのか、承認待ちのプレースホルダーなのか
+ * を明示しなければならない。プレースホルダーはオーナーの承認後に承認済みの情報
+ * へ差し替えられる。それまでの間、プレースホルダーを訪問者にあたかも実データの
+ * ように提示してはならない（docs/product/mvp.md を参照）。
  *
- * UI components that render a `ProvenancedField` are responsible for making
- * placeholder content visibly distinguishable (see
- * `src/components/content/provenanced-text.tsx` and `provenanced-link.tsx`).
+ * `ProvenancedField` を描画する UI コンポーネントは、プレースホルダーであること
+ * を視覚的に区別できるようにする責務を負う（`src/components/content/
+ * provenanced-text.tsx` と `provenanced-link.tsx` を参照）。
  */
 export type ContentProvenance = "approved" | "placeholder";
 
@@ -17,12 +16,12 @@ export interface ProvenancedField<T> {
   readonly provenance: ContentProvenance;
 }
 
-/** Wrap a fact that the owner has explicitly approved for public display. */
+/** オーナーが公開を明示的に承認した情報をラップする。 */
 export function approved<T>(value: T): ProvenancedField<T> {
   return { value, provenance: "approved" };
 }
 
-/** Wrap placeholder content that must render with a visible placeholder marker. */
+/** 可視のプレースホルダーマーカー付きで描画すべき、未承認の情報をラップする。 */
 export function placeholder<T>(value: T): ProvenancedField<T> {
   return { value, provenance: "placeholder" };
 }

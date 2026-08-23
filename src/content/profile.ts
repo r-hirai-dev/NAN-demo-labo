@@ -6,8 +6,8 @@ export interface Profile {
   readonly introduction: ProvenancedField<string>;
 }
 
-// Every field below is a placeholder: no real name, employer detail, or
-// biography has been approved for publication yet.
+// 以下のフィールドはすべてプレースホルダーである。実名・所属先の詳細・経歴の
+// いずれもまだ公開が承認されていない。
 export const profile: Profile = {
   handle: placeholder("handle-pending-approval"),
   tagline: placeholder("Tagline pending owner approval."),

@@ -7,8 +7,8 @@
 <!-- One line per acceptance criterion this PR claims to meet, each with the evidence that satisfies it. -->
 
 | Criterion | Evidence |
-| --- | --- |
-|  |  |
+| --------- | -------- |
+|           |          |
 
 ## Evidence
 

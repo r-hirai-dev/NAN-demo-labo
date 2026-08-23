@@ -6,11 +6,12 @@ import { useId, useState, type KeyboardEvent } from "react";
 import { navigationItems } from "@/content/navigation";
 
 /**
- * Site-wide header: a skip link, the site mark, and the single primary
- * navigation landmark. The mobile toggle only changes CSS visibility below
- * the `md` breakpoint (`hidden` vs `block`); `md:block` always wins at and
- * above that breakpoint, so there is exactly one `nav` landmark in the DOM
- * at any viewport width instead of duplicated desktop/mobile copies.
+ * サイト全体のヘッダー。スキップリンク、サイトマーク、単一のプライマリナビゲー
+ * ションランドマークで構成される。モバイル用のトグルは `md` ブレークポイント
+ * 未満での CSS の表示・非表示（`hidden` と `block`）を切り替えるだけであり、
+ * `md:block` がそのブレークポイント以上では常に優先されるため、デスクトップ用
+ * とモバイル用を別々に複製せずとも、どのビューポート幅でも DOM 上の `nav`
+ * ランドマークは常に1つだけになる。
  */
 export function SiteHeader() {
   const pathname = usePathname();

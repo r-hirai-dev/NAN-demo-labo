@@ -22,12 +22,12 @@ The application is a TypeScript Next.js App Router project exported as static as
 
 ## Alternatives considered
 
-| Alternative | Benefit | Why not now |
-| --- | --- | --- |
-| Astro on S3/CloudFront | Excellent content-first defaults and minimal client JavaScript | Adds a new primary framework without an MVP need; Next.js static output can meet the same budget |
-| Amplify Hosting | Fast setup and managed previews | Hides more infrastructure behavior and weakens the Terraform/AWS architecture evidence sought by this project |
-| Next.js server runtime on Lambda | Supports SSR and route handlers | No MVP request-time requirement justifies compute, observability, and deployment complexity |
-| ECS/Fargate | Flexible runtime | Always-on cost and operations are disproportionate for a low-traffic static portfolio |
+| Alternative                      | Benefit                                                        | Why not now                                                                                                   |
+| -------------------------------- | -------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| Astro on S3/CloudFront           | Excellent content-first defaults and minimal client JavaScript | Adds a new primary framework without an MVP need; Next.js static output can meet the same budget              |
+| Amplify Hosting                  | Fast setup and managed previews                                | Hides more infrastructure behavior and weakens the Terraform/AWS architecture evidence sought by this project |
+| Next.js server runtime on Lambda | Supports SSR and route handlers                                | No MVP request-time requirement justifies compute, observability, and deployment complexity                   |
+| ECS/Fargate                      | Flexible runtime                                               | Always-on cost and operations are disproportionate for a low-traffic static portfolio                         |
 
 ## Content and boundaries
 
@@ -47,14 +47,14 @@ Dynamic experiments are separate deployable boundaries under `/labs/<name>` or a
 
 Assumptions: one small static site, low traffic, one hosted zone, standard on-demand pricing, no WAF/log ingestion/runtime API, and traffic within CloudFront's included allowance.
 
-| Component | Expected monthly cost |
-| --- | ---: |
-| Route 53 hosted zone and low query volume | about USD 0.50 |
-| S3 storage and deployment requests | less than USD 0.10 |
-| CloudFront transfer and requests | USD 0 within included allowance |
-| ACM certificate used by CloudFront | USD 0 |
-| Terraform state storage | less than USD 0.10 |
-| **Expected infrastructure total** | **about USD 0.60-1.00** |
+| Component                                 |           Expected monthly cost |
+| ----------------------------------------- | ------------------------------: |
+| Route 53 hosted zone and low query volume |                  about USD 0.50 |
+| S3 storage and deployment requests        |              less than USD 0.10 |
+| CloudFront transfer and requests          | USD 0 within included allowance |
+| ACM certificate used by CloudFront        |                           USD 0 |
+| Terraform state storage                   |              less than USD 0.10 |
+| **Expected infrastructure total**         |         **about USD 0.60-1.00** |
 
 Domain registration is separate, typically an annual charge determined by the TLD. Budget USD 10-30/year until a domain is selected. AWS states that CloudFront includes monthly transfer/request allowances, Route 53 charges USD 0.50 per hosted zone for the first 25 zones, and ACM non-exportable public certificates used with integrated services have no certificate charge. Pricing should be rechecked before provisioning:
 

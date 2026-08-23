@@ -1,13 +1,13 @@
 import { placeholder, type ProvenancedField } from "./provenance";
 
 export interface SkillCategory {
-  /** Structural key for lists; not a visitor-facing fact. */
+  /** リスト表示用の構造上のキーであり、訪問者向けの情報ではない。 */
   readonly id: string;
   readonly category: ProvenancedField<string>;
   readonly items: readonly ProvenancedField<string>[];
 }
 
-// Placeholder categories only; real skill content is published only after owner approval.
+// プレースホルダーのカテゴリのみ。実際のスキル情報はオーナーの承認後に公開する。
 export const skillCategories: readonly SkillCategory[] = [
   {
     id: "skills-placeholder-1",

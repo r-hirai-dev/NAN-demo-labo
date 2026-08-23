@@ -1,9 +1,8 @@
 /**
- * Every fact on the site is currently a placeholder; real content is published
- * only after the owner approves it. This banner keeps that unambiguous even
- * though each individual fact is already marked; see docs/product/mvp.md
- * quality bar ("placeholders ... must never be silently presented as real
- * facts").
+ * 現在サイト上のすべての情報はプレースホルダーであり、実データはオーナーの承認後
+ * にのみ公開される。個々の情報にはすでにマークが付いているが、このバナーはその
+ * 事実をより明確にするためのもの（docs/product/mvp.md の品質基準
+ * "placeholders ... must never be silently presented as real facts" を参照）。
  */
 export function PlaceholderNotice() {
   return (
