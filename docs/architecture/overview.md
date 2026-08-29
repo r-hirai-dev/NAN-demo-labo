@@ -38,9 +38,9 @@ Dynamic experiments are separate deployable boundaries under `/labs/<name>` or a
 ## Quality and security controls
 
 - TypeScript strict mode, ESLint, formatting, and dependency lockfile.
-- Vitest and Testing Library for behavior; axe integration for component accessibility; Playwright for primary-route smoke and responsive workflows.
+- Vitest and Testing Library for behavior; a Playwright + axe-core smoke, driven by the built static export's actual route list rather than a hardcoded one, over every route for WCAG 2.1 AA regressions.
 - Immutable artifact deployment, CloudFront security headers, S3 public access block, TLS, and least-privilege OIDC roles.
-- Dependency review and secret scanning in CI. WAF is deferred until a threat model or dynamic endpoint justifies it.
+- GitHub Actions runs validation, formatting, lint, types, tests, the accessibility smoke, and a production build on every pull request with least-privilege, job-scoped permissions (`docs/delivery/quality-gates.md`). Dependency review and `npm audit` run alongside; secret scanning and push protection are repository settings CI cannot enable itself. WAF is deferred until a threat model or dynamic endpoint justifies it.
 - CloudFront standard metrics and deployment failures are the MVP observability surface. Request logs are off by default until a concrete diagnostic need and retention policy exist.
 
 ## Estimated monthly AWS cost

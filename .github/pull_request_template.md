@@ -12,13 +12,16 @@
 
 ## Evidence
 
-<!-- Commands actually run and their result. Paste real output for anything that is not obvious. -->
+<!-- Commands actually run and their result. Paste real output for anything that is not obvious. CI runs the same gates on every pull request; link the run or paste local output if it differs. -->
 
 - [ ] `npm run validate`
-- [ ] Lint / types
-- [ ] Tests
-- [ ] Production build
-- [ ] Accessibility check (user-facing changes)
+- [ ] `npm run format:check`
+- [ ] `npm run lint`
+- [ ] `npm run typecheck`
+- [ ] `npm run test`
+- [ ] `npm run build`
+- [ ] `npm run build && npm run test:a11y` (accessibility smoke over the static export)
+- [ ] Dependency review / `npm audit --audit-level=high` (dependency changes)
 
 ## Risk and boundaries
 
