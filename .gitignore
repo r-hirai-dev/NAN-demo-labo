@@ -35,6 +35,8 @@ cdk.out/
 *.tfstate.*
 *.tfplan
 *.log
+next-env.d.ts
+*.tsbuildinfo
 
 # Personal editor and OS state
 .vscode/

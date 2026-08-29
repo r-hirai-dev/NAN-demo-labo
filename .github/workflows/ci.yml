@@ -1,0 +1,167 @@
+name: CI
+
+# `pull_request` は PR のヘッドブランチ（フォーク由来を含む）のコードを、
+# base ブランチの secrets を持たない読み取り専用トークンで実行する。
+# `pull_request_target` は base 側のワークフロー定義を使う一方で secrets 付きの
+# 書き込み可能トークンを渡してしまうため、信頼できない PR コードを実行する本
+# ワークフローでは使わない。
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+# 既定のトークン権限は読み取りのみに絞る。書き込みが必要なジョブは無く、
+# 各ジョブでも改めて明示することで「既定に依存しない」ことを保証する。
+permissions:
+  contents: read
+
+# 同一ワークフロー・同一 ref への再実行があれば進行中の実行をキャンセルする。
+# ただし `main` への push は履歴が一直線で、キャンセルすると「完走した実行が
+# 一つも無い main」を作りかねないため、pull request に限ってキャンセルする。
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  quality:
+    name: Quality gates
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate repository boundaries
+        run: npm run validate
+
+      - name: Check formatting
+        run: npm run format:check
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Type check
+        run: npm run typecheck
+
+      - name: Unit and component tests
+        run: npm run test
+
+      - name: Production build (static export)
+        run: npm run build
+
+      # 静的エクスポート結果をアクセシビリティ・ジョブへ引き継ぎ、
+      # 同じビルドを再現するための二重ビルドを避ける。
+      - name: Upload static export
+        uses: actions/upload-artifact@v4
+        with:
+          name: static-export
+          path: out/
+          retention-days: 1
+          # `public/.well-known/...` のような隠しファイル配下の資産が、
+          # 将来追加されたときに artifact から静かに欠落しないようにする。
+          include-hidden-files: true
+
+  accessibility:
+    name: Accessibility smoke (axe)
+    runs-on: ubuntu-latest
+    needs: quality
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Download static export
+        uses: actions/download-artifact@v4
+        with:
+          name: static-export
+          path: out/
+
+      - name: Install Playwright browser (Chromium only)
+        run: npx playwright install --with-deps chromium
+
+      - name: Run accessibility smoke
+        run: npm run test:a11y
+
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7
+
+  dependency-review:
+    name: Dependency review
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    timeout-minutes: 10
+    # `dependency-review-action` は base/head 間の依存差分を読み取るだけで、
+    # PR へのコメント投稿など書き込みは行わないため contents: read のみで足りる。
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      # 新規/変更された依存関係を base との差分で評価する。GitHub の
+      # 依存関係グラフ（パブリックリポジトリ、または GHAS 有効化）が
+      # 前提条件であり、CI からは有効化できない。無効な場合はこのステップが
+      # 失敗する — ゲートを弱めるために continue-on-error は付けない。
+      - name: Dependency review
+        uses: actions/dependency-review-action@v4
+
+  dependency-audit:
+    name: Dependency audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    # `npm audit` はロックファイルだけで完結し、`dependency-review` の成否とは
+    # 独立に実行できる／実行すべきゲートのため、別ジョブに分離する。
+    # マージ後に公開された advisory も検出できるよう push でも実行する。
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Audit dependencies (high severity and above)
+        run: npm audit --audit-level=high
