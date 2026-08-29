@@ -1,51 +1,51 @@
-# MVP definition
+# MVP定義
 
-## Purpose
+## 目的
 
-The MVP is a production-deployable public identity for a software/cloud engineer and visible evidence of a reviewable engineering process. It is not a blog platform or a collection of unfinished demos.
+MVPは、ソフトウェア／クラウドエンジニアとしての公開されたアイデンティティを本番デプロイ可能な形で提供し、レビュー可能なエンジニアリングプロセスの目に見える証拠を示すものである。ブログプラットフォームでも、未完成のデモの寄せ集めでもない。
 
-## Audience outcome
+## 訪問者に届ける体験
 
-Within a few minutes, a technical visitor can understand:
+数分以内に、技術者である訪問者が以下を理解できること。
 
-- who the engineer is under a public handle;
-- the kind of software and cloud problems they work on;
-- representative skills and projects;
-- how this repository is designed, tested, and delivered;
-- how to reach public profiles without exposing private information.
+- 公開ハンドルの下でこのエンジニアが何者か
+- どのようなソフトウェア／クラウド分野の課題に取り組んでいるか
+- 代表的なスキルとプロジェクト
+- このリポジトリがどう設計・テスト・デリバリーされているか
+- 個人情報を明かさずに公開プロフィールへ到達する方法
 
-## In scope
+## スコープ内
 
-1. Responsive site shell with clear navigation and accessible typography.
-2. Home/profile, experience, skills, and selected projects content.
-3. A concise Lab page linking to public Architecture and selected engineering documentation.
-4. SEO metadata, social preview metadata, sitemap, robots policy, and a custom not-found page.
-5. Static build deployed through CloudFront from a private S3 origin with HTTPS and an approved domain.
-6. Automated lint, type, unit/component, accessibility, build, and smoke/E2E checks.
-7. Terraform and GitHub Actions using OIDC, with production deployment requiring the repository's normal review path.
+1. 明確なナビゲーションとアクセシブルなタイポグラフィを備えたレスポンシブなサイトシェル。
+2. ホーム／プロフィール、経歴、スキル、選定プロジェクトのコンテンツ。
+3. 公開アーキテクチャおよび選定した技術ドキュメントへリンクする、簡潔なLabページ。
+4. SEOメタデータ、SNS共有用メタデータ、サイトマップ、robotsポリシー、カスタム404ページ。
+5. HTTPSと承認済みドメインを備え、private S3オリジンからCloudFront経由で配信される静的ビルド。
+6. lint、型検査、ユニット／コンポーネントテスト、アクセシビリティ検査、ビルド、スモーク／E2Eの自動チェック一式。
+7. OIDCを用いたTerraformおよびGitHub Actions。本番デプロイはリポジトリの通常のレビュー経路を必須とする。
 
-## Explicitly out of scope
+## 明示的にスコープ外
 
-- Authentication, database, CMS, comments, search, analytics, ads, contact forms, and runtime APIs.
-- AI demos, long-form blog authoring, WAF, RDS, ECS, EKS, and always-on compute.
-- Importing employer-confidential project details or automatically publishing GitHub data.
+- 認証、データベース、CMS、コメント機能、検索、アナリティクス、広告、問い合わせフォーム、実行時API。
+- AIデモ、長文ブログの執筆機能、WAF、RDS、ECS、EKS、常時稼働のコンピュートリソース。
+- 雇用主の機密プロジェクト情報の取り込みや、GitHubデータの自動公開。
 
-These are candidates for later Stories only after a concrete visitor or learning outcome exists.
+これらは、具体的な訪問者価値または学習効果が存在すると確認できて初めて、後続の実装候補になる。
 
-## MVP quality bar
+## MVPの品質基準
 
-- No critical or serious automated accessibility findings on primary routes.
-- Mobile and desktop navigation works with keyboard and pointer input.
-- Static generation succeeds without network access to private services.
-- No secret values or personal data beyond explicitly approved public content enter Git history.
-- Deployment is reproducible from Terraform and CI; the S3 bucket is not public.
-- Each implementation unit's acceptance criteria are executable where practical and independently reviewed.
+- 主要ルートにおいて、自動アクセシビリティ検査でcritical/seriousの指摘が0件であること。
+- モバイル・デスクトップいずれのナビゲーションも、キーボード・ポインタ両方の入力で操作できること。
+- 静的生成が、非公開サービスへのネットワークアクセスなしに成功すること。
+- 明示的に承認された公開コンテンツを超える秘密情報・個人データがGit履歴に入らないこと。
+- デプロイがTerraformとCIから再現可能であり、S3バケットが公開されていないこと。
+- 各実装単位の受け入れ条件が、可能な限り実行可能な形になっており、独立してレビューされていること。
 
-## Product decisions still requiring the owner
+## オーナー側でまだ確定していない事項
 
-- Public handle and approved biography/experience wording.
-- Initial project list and external profile links.
-- Visual direction and whether a portrait/avatar may be published.
-- Domain name and AWS account/region boundaries.
+- 公開ハンドル、および承認済みの経歴・経験に関する文言。
+- 初期のプロジェクト一覧と外部プロフィールへのリンク。
+- ビジュアルの方向性、および肖像／アバターを公開するかどうか。
+- ドメイン名、AWSアカウント／リージョンの境界。
 
-Placeholders may be used in local development, but they must never be silently presented as real facts.
+ローカル開発ではプレースホルダーを使用してよいが、それを実際の事実であるかのように黙って提示してはならない。

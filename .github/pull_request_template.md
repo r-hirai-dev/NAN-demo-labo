@@ -1,18 +1,18 @@
-## Outcome
+## 成果
 
-<!-- The visitor- or contributor-facing outcome this PR delivers, in one or two sentences. -->
+<!-- この PR が届ける訪問者・貢献者にとっての価値を1〜2文で。 -->
 
-## Acceptance criteria
+## 受け入れ条件
 
-<!-- One line per acceptance criterion this PR claims to meet, each with the evidence that satisfies it. -->
+<!-- この PR が満たすと主張する受け入れ条件を1行ずつ、それぞれの根拠とともに。 -->
 
-| Criterion | Evidence |
-| --------- | -------- |
-|           |          |
+| 条件 | 根拠 |
+| ---- | ---- |
+|      |      |
 
-## Evidence
+## 根拠
 
-<!-- Commands actually run and their result. Paste real output for anything that is not obvious. CI runs the same gates on every pull request; link the run or paste local output if it differs. -->
+<!-- 実際に実行したコマンドとその結果。自明でないものは実際の出力を貼ること。CI は pull request ごとに同じゲートを実行するので、差分がある場合はその run へのリンクかローカル出力を貼る。 -->
 
 - [ ] `npm run validate`
 - [ ] `npm run format:check`
@@ -20,20 +20,20 @@
 - [ ] `npm run typecheck`
 - [ ] `npm run test`
 - [ ] `npm run build`
-- [ ] `npm run build && npm run test:a11y` (accessibility smoke over the static export)
-- [ ] Dependency review / `npm audit --audit-level=high` (dependency changes)
+- [ ] `npm run build && npm run test:a11y`（静的エクスポートに対するアクセシビリティ・スモーク）
+- [ ] Dependency review / `npm audit --audit-level=high`（依存関係を変更した場合）
 
-## Risk and boundaries
+## リスクと境界
 
-- Boundaries touched: <!-- application / infrastructure / delivery / documentation -->
-- Public-data boundary: <!-- confirm no real names, employer detail, credentials, private URLs, or account identifiers -->
-- ADR impact: <!-- none, or the ADR this follows / adds / supersedes -->
+- 触れた境界: <!-- application / infrastructure / delivery / documentation -->
+- 公開データ境界: <!-- 実名・雇用主情報・認証情報・非公開URL・アカウント識別子が含まれていないことを確認 -->
+- ADRへの影響: <!-- なし、またはこの PR が従う／追加する／置き換える ADR -->
 
-## Deployment impact
+## デプロイへの影響
 
-- Paid resources or production state changed: <!-- no, or what and why it needs approval -->
-- Rollback: <!-- how this is reverted -->
+- 有料リソースまたは本番状態の変更: <!-- なし、またはその内容と承認が必要な理由 -->
+- ロールバック方法: <!-- どう戻すか -->
 
-## Deliberately not included
+## 意図的に含めなかったもの
 
-<!-- Scope left out and why, so review does not treat it as an oversight. -->
+<!-- スコープ外にしたものとその理由。レビューで見落としと誤解されないように。 -->

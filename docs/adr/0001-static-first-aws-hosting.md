@@ -1,31 +1,31 @@
-# ADR-0001: Static-first AWS hosting for the MVP
+# ADR-0001: MVP向けのstatic-first AWSホスティング
 
 - Status: Proposed
 - Date: 2026-08-19
 
-## Context
+## 背景（Context）
 
-The MVP is public, read-only portfolio content with low expected traffic. It must be production deployable, inexpensive, reviewable through Terraform, and capable of evolving into a Personal Engineering Lab. There is no accepted requirement for request-time rendering, a database, authentication, or an always-on backend.
+MVPは公開・読み取り専用のポートフォリオコンテンツであり、想定トラフィックは低い。本番デプロイ可能で、安価で、Terraformでレビュー可能であり、将来Personal Engineering Labへと発展できる必要がある。リクエスト時レンダリング、データベース、認証、常時稼働のバックエンドについて、承認された要求は現時点で存在しない。
 
-## Decision
+## 決定（Decision）
 
-Build the MVP with Next.js App Router and TypeScript using static export. Serve generated assets through CloudFront from a private S3 origin protected by Origin Access Control. Manage Route 53, ACM, S3, CloudFront, and GitHub Actions OIDC permissions with Terraform.
+MVPはNext.js App Router（TypeScript）を使い、静的エクスポートでビルドする。生成したアセットは、Origin Access Controlで保護されたprivate S3オリジンから、CloudFront経由で配信する。Route 53、ACM、S3、CloudFront、GitHub ActionsのOIDC権限はTerraformで管理する。
 
-Future dynamic labs will be isolated serverless boundaries rather than changing the entire portfolio to a server runtime.
+将来の動的なLabは、ポートフォリオ全体をサーバーランタイムに変更するのではなく、分離されたサーバーレスの境界として追加する。
 
-## Alternatives
+## 代替案（Alternatives）
 
-- Astro with the same AWS hosting: strong static-content fit, but introduces another primary framework without current value.
-- AWS Amplify Hosting: reduces setup, but provides less direct infrastructure evidence and control.
-- Next.js server runtime on Lambda: enables SSR and APIs, but adds runtime cost and operational surface before a requirement exists.
+- 同じAWSホスティングでAstroを使う: 静的コンテンツとの親和性は高いが、現時点で価値のない新しい主要フレームワークを追加することになる。
+- AWS Amplify Hosting: セットアップは楽になるが、インフラに対する直接的な証拠と制御が弱くなる。
+- Next.jsサーバーランタイム（Lambda）: SSRとAPIが可能になるが、要求が存在する前から実行時コストと運用面の負荷を増やす。
 
-## Consequences
+## 結果（Consequences）
 
-- The site remains cheap, highly cacheable, and available without application compute.
-- Features requiring request-time behavior need a separate service or an explicit architecture revision.
-- Next.js features incompatible with static export are unavailable in the MVP.
-- Content updates require a build and deployment, which is acceptable for the expected publishing frequency.
+- サイトは安価で、キャッシュ効率が高く、アプリケーションコンピュートなしで稼働し続ける。
+- リクエスト時の挙動を必要とする機能には、別サービスまたは明示的なアーキテクチャの見直しが必要になる。
+- 静的エクスポートと両立しないNext.jsの機能は、MVPでは使えない。
+- コンテンツ更新にはビルドとデプロイが必要になるが、想定している更新頻度では許容範囲。
 
-## Revisit when
+## 見直しの契機（Revisit when）
 
-An accepted Story requires per-request personalization, protected content, runtime writes, preview workflows that cannot be met in CI, or a dynamic feature whose isolation would materially harm the user experience.
+承認された実装単位がリクエスト単位のパーソナライズ、保護されたコンテンツ、実行時の書き込み、CIだけでは満たせないプレビューワークフロー、あるいは分離するとユーザー体験を著しく損なう動的機能を必要とするとき。
