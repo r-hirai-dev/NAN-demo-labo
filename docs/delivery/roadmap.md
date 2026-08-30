@@ -1,49 +1,49 @@
-# Incremental roadmap
+# 段階的ロードマップ
 
-Each phase is a user-visible or engineering-value increment. Implementation units remain large enough to deliver coherent value and small enough to review as one pull request.
+各フェーズは、訪問者にとって、またはエンジニアリング上の価値として意味のある増分である。実装単位は、まとまった価値を届けられるだけの大きさを保ちつつ、1つのpull requestとしてレビューできる大きさに留める。
 
-## Phase 0: Foundation
+## フェーズ0: 基盤
 
-Outcome: a new contributor can understand the product, its constraints, and how to validate the repository locally.
+成果: 新しい貢献者が、プロダクトとその制約、リポジトリをローカルで検証する方法を理解できる状態。
 
-- Project context, MVP, Architecture, cost envelope, ADR process.
-- Repository publication policy and local validation.
-- Scope for the first implementation pull request.
+- プロジェクトの背景、MVP、アーキテクチャ、コストの見積もり、ADRのプロセス。
+- リポジトリの公開ポリシーとローカルでの検証。
+- 最初の実装pull requestのスコープ。
 
-## Phase 1: Publishable MVP
+## フェーズ1: 公開可能なMVP
 
-Outcome: a visitor can understand the public engineering identity and inspect selected evidence on a fast, accessible production site.
+成果: 訪問者が公開されたエンジニアリング上のアイデンティティを理解し、高速でアクセシブルな本番サイト上で選定された証拠を確認できる状態。
 
-1. Site shell and design system with placeholder-safe typed content.
-2. Approved profile, experience, skills, projects, and Lab overview.
-3. Test pyramid and CI quality gates.
-4. Terraform, domain approval gate, preview artifact, and production deployment.
+1. プレースホルダー対応の型付きコンテンツによる、サイトシェルとデザインシステム。
+2. 承認済みのプロフィール、経歴、スキル、プロジェクト、Lab概要。
+3. テストピラミッドとCIの品質ゲート。
+4. Terraform、ドメイン承認ゲート、プレビュー用アーティファクト、本番デプロイ。
 
-## Phase 2: Engineering evidence
+## フェーズ2: エンジニアリングの証拠
 
-Outcome: the site demonstrates architecture and delivery quality through maintained artifacts rather than claims alone.
+成果: 主張だけでなく、維持されているアーティファクトを通じてアーキテクチャとデリバリー品質を示せる状態。
 
-- Architecture views generated or verified from source.
-- Curated technical notes with an intentional publishing workflow.
-- Independent PR review checklist and measurable escaped-defect feedback.
-- Lightweight availability/deployment monitoring with explicit retention and cost.
+- ソースから生成または検証されたアーキテクチャ図。
+- 意図された公開ワークフローに基づく、厳選された技術ノート。
+- 独立したPRレビューチェックリストと、計測可能な見逃し欠陥のフィードバック。
+- 明示的な保持期間とコストを伴う、軽量な可用性／デプロイ監視。
 
-## Phase 3: Interactive labs
+## フェーズ3: インタラクティブなLab
 
-Outcome: visitors can use one focused technical experiment without compromising the static site's reliability or budget.
+成果: 静的サイトの信頼性や予算を損なうことなく、訪問者が1つの焦点を絞った技術的実験を体験できる状態。
 
-- Select one AI or AWS demo based on a concrete visitor outcome.
-- Threat model, abuse controls, quota/cost guardrails, and isolated serverless backend.
-- Usage and error telemetry limited to what operates the demo.
+- 具体的な訪問者価値に基づき、AIまたはAWSのデモを1つ選定。
+- 脅威モデル、悪用対策、クォータ／コストのガードレール、分離されたサーバーレスバックエンド。
+- デモの運用に必要な範囲に限定した、利用状況とエラーのテレメトリ。
 
-## Phase 4: Sustainable growth
+## フェーズ4: 持続的な成長
 
-Outcome: new experiments, articles, or services can be added without turning the repository into an accidental platform.
+成果: リポジトリを意図せぬプラットフォームへ肥大化させることなく、新しい実験・記事・サービスを追加できる状態。
 
-- Add search/CMS/analytics only when content volume or decisions justify them.
-- Evaluate monetization separately from core UX.
-- Periodically retire stale labs, dependencies, instructions, and ADR assumptions.
+- 検索／CMS／アナリティクスは、コンテンツの量や判断がそれを正当化する場合にのみ追加する。
+- マネタイズはコアUXとは切り離して評価する。
+- 陳腐化したLab、依存関係、指示書、ADRの前提を定期的に見直す。
 
-## First implementation PR after foundation
+## 基盤整備後の最初の実装PR
 
-The first implementation pull request delivers the navigable, responsive site shell and typed placeholder content model. It deliberately excludes real biography content, AWS resources, and deployment so visual and technical conventions can be reviewed before public facts or infrastructure are introduced.
+基盤整備後の最初の実装pull requestでは、ナビゲーション可能でレスポンシブなサイトシェルと、型付きプレースホルダーコンテンツモデルを届ける。実際の経歴コンテンツ、AWSリソース、デプロイは意図的に含めない。公開される事実やインフラを導入する前に、ビジュアルおよび技術的な規約をレビューできるようにするため。

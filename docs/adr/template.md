@@ -1,24 +1,24 @@
-# ADR-NNNN: Decision title
+# ADR-NNNN: 決定のタイトル
 
 - Status: Proposed
 - Date: YYYY-MM-DD
 
-## Context
+## 背景（Context）
 
-The forces that make this a decision: constraints, cost, security posture, and what breaks if nothing changes.
+この決定を必要とする力学: 制約、コスト、セキュリティ姿勢、何もしなければ何が壊れるか。
 
-## Decision
+## 決定（Decision）
 
-The chosen option, stated as a constraint future work must respect.
+選んだ選択肢を、以降の作業が守るべき制約として記述する。
 
-## Alternatives
+## 代替案（Alternatives）
 
-Each option that was genuinely viable, with the reason it was not chosen.
+真に検討に値した選択肢それぞれと、採用しなかった理由。
 
-## Consequences
+## 結果（Consequences）
 
-What this makes easy, what it makes hard, and the recurring cost or operational burden it accepts.
+これによって何が容易になり、何が難しくなり、どのような継続的コストや運用負荷を引き受けるか。
 
-## Revisit when
+## 見直しの契機（Revisit when）
 
-The concrete signal that should reopen this decision.
+この決定を見直すべき具体的なシグナル。

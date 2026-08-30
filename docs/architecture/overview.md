@@ -1,6 +1,6 @@
 # Architecture
 
-## Recommended MVP
+## MVP構成
 
 ```text
 GitHub PR -> CI quality gates -> Next.js static export
@@ -11,58 +11,58 @@ GitHub PR -> CI quality gates -> Next.js static export
 Route 53 -> CloudFront + ACM ---------+
 ```
 
-The application is a TypeScript Next.js App Router project exported as static assets. CloudFront serves a private S3 origin through Origin Access Control. Route 53 provides DNS and a non-exportable ACM certificate in `us-east-1` terminates TLS at CloudFront. Terraform owns AWS resources; GitHub Actions assumes a narrowly scoped deploy role through OIDC.
+アプリケーション本体はNext.js App Router（TypeScript）で、静的エクスポートとして出力する。CloudFrontはOrigin Access Controlを介してprivate S3オリジンを配信する。Route 53がDNSを提供し、`us-east-1`のエクスポート不可なACM証明書がCloudFrontでTLSを終端する。AWSリソースはTerraformが管理し、GitHub ActionsはOIDCで権限を最小限に絞ったデプロイロールを引き受ける。
 
-## Why this shape
+## この構成を選んだ理由
 
-- The MVP is read-only content, so runtime compute, a database, and authentication add cost and failure modes without user value.
-- Next.js matches existing team expertise and leaves a familiar route/component model for later labs.
-- Static export keeps the portfolio reliable and cheap while allowing future dynamic labs to live behind isolated serverless APIs.
-- A private origin, HTTPS, security headers, least-privilege deployment, and reproducible IaC provide production discipline without copying an enterprise platform wholesale.
+- MVPは読み取り専用コンテンツのため、実行時コンピュート・データベース・認証はコストと故障モードを増やすだけでユーザー価値を生まない。
+- Next.jsは既存のチームの知見に合致し、将来のLab向けに馴染みのあるroute/componentモデルを残せる。
+- 静的エクスポートはポートフォリオを安価かつ信頼性高く保ちながら、将来の動的なLabを分離されたサーバーレスAPIの裏側に置く余地を残す。
+- private origin、HTTPS、セキュリティヘッダー、最小権限のデプロイ、再現可能なIaCにより、エンタープライズ基盤をそのまま模倣することなく本番相応の規律を確保する。
 
-## Alternatives considered
+## 検討した代替案
 
-| Alternative                      | Benefit                                                        | Why not now                                                                                                   |
-| -------------------------------- | -------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| Astro on S3/CloudFront           | Excellent content-first defaults and minimal client JavaScript | Adds a new primary framework without an MVP need; Next.js static output can meet the same budget              |
-| Amplify Hosting                  | Fast setup and managed previews                                | Hides more infrastructure behavior and weakens the Terraform/AWS architecture evidence sought by this project |
-| Next.js server runtime on Lambda | Supports SSR and route handlers                                | No MVP request-time requirement justifies compute, observability, and deployment complexity                   |
-| ECS/Fargate                      | Flexible runtime                                               | Always-on cost and operations are disproportionate for a low-traffic static portfolio                         |
+| 代替案                              | 利点                                                             | 今回採用しない理由                                                                                   |
+| ----------------------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| Astro + S3/CloudFront               | コンテンツ中心のデフォルトが優秀で、クライアントJavaScriptが最小 | MVPに必要のない新たな主要フレームワークを追加することになり、Next.jsの静的出力でも同じ予算内に収まる |
+| Amplify Hosting                     | セットアップとプレビュー環境が高速                               | インフラの挙動が見えにくくなり、本プロジェクトが目指すTerraform/AWSのアーキテクチャ上の証拠が弱まる  |
+| Next.jsサーバーランタイム（Lambda） | SSRとroute handlerに対応                                         | MVPの要求としてリクエスト時処理は存在せず、コンピュート・可観測性・デプロイの複雑さに見合わない      |
+| ECS/Fargate                         | 柔軟なランタイム                                                 | 低トラフィックな静的ポートフォリオに対して、常時稼働のコストと運用が釣り合わない                     |
 
-## Content and boundaries
+## コンテンツと境界
 
-Initial profile, experience, skill, and project content lives in typed local data. MDX is introduced only when long-form notes become an accepted Story. External GitHub data is fetched at build time only if deterministic fallback behavior and rate-limit handling are designed first.
+初期のプロフィール・経歴・スキル・プロジェクトのコンテンツは、型付きのローカルデータとして持つ。MDXは、長文ノートが承認された実装単位になった時点で初めて導入する。外部GitHubデータをビルド時に取得するのは、決定的なフォールバック挙動とレート制限への対処を先に設計した場合に限る。
 
-Dynamic experiments are separate deployable boundaries under `/labs/<name>` or an API subdomain. They do not force the static portfolio shell onto a server runtime.
+動的な実験は`/labs/<name>`またはAPIサブドメイン配下の独立したデプロイ境界とする。静的なポートフォリオシェルをサーバーランタイムに巻き込むことはしない。
 
-## Quality and security controls
+## 品質・セキュリティ管理
 
-- TypeScript strict mode, ESLint, formatting, and dependency lockfile.
-- Vitest and Testing Library for behavior; a Playwright + axe-core smoke, driven by the built static export's actual route list rather than a hardcoded one, over every route for WCAG 2.1 AA regressions.
-- Immutable artifact deployment, CloudFront security headers, S3 public access block, TLS, and least-privilege OIDC roles.
-- GitHub Actions runs validation, formatting, lint, types, tests, the accessibility smoke, and a production build on every pull request with least-privilege, job-scoped permissions (`docs/delivery/quality-gates.md`). Dependency review and `npm audit` run alongside; secret scanning and push protection are repository settings CI cannot enable itself. WAF is deferred until a threat model or dynamic endpoint justifies it.
-- CloudFront standard metrics and deployment failures are the MVP observability surface. Request logs are off by default until a concrete diagnostic need and retention policy exist.
+- TypeScript strictモード、ESLint、フォーマッタ、依存関係のロックファイル。
+- Vitest・Testing Libraryによる挙動テストと、ビルド済み静的エクスポートの実際のルート一覧（ハードコードではない）から駆動するPlaywright + axe-coreによる、全ルートに対するWCAG 2.1 AAスモークテスト。
+- immutableなアーティファクトのデプロイ、CloudFrontのセキュリティヘッダー、S3のpublic access block、TLS、最小権限のOIDCロール。
+- GitHub Actionsは、すべてのpull requestでvalidate、フォーマット、lint、型検査、テスト、アクセシビリティスモーク、本番ビルドを最小権限・ジョブ単位のpermissionsで実行する（`docs/delivery/quality-gates.md`）。依存関係レビューと`npm audit`も併走する。シークレットスキャンとpush protectionはリポジトリ設定であり、CI自身では有効化できない。WAFは、脅威モデルまたは動的エンドポイントがそれを正当化するまで導入を見送る。
+- CloudFrontの標準メトリクスとデプロイ失敗が、MVPにおける可観測性の範囲である。リクエストログは、具体的な診断上の必要性と保持ポリシーが定まるまでデフォルトで無効。
 
-## Estimated monthly AWS cost
+## AWS月額コストの見積もり
 
-Assumptions: one small static site, low traffic, one hosted zone, standard on-demand pricing, no WAF/log ingestion/runtime API, and traffic within CloudFront's included allowance.
+前提: 小規模な静的サイト1つ、低トラフィック、hosted zone 1つ、標準のオンデマンド料金、WAF/ログ取り込み/実行時APIなし、CloudFrontの無料枠内のトラフィック。
 
-| Component                                 |           Expected monthly cost |
-| ----------------------------------------- | ------------------------------: |
-| Route 53 hosted zone and low query volume |                  about USD 0.50 |
-| S3 storage and deployment requests        |              less than USD 0.10 |
-| CloudFront transfer and requests          | USD 0 within included allowance |
-| ACM certificate used by CloudFront        |                           USD 0 |
-| Terraform state storage                   |              less than USD 0.10 |
-| **Expected infrastructure total**         |         **about USD 0.60-1.00** |
+| 項目                                |        想定月額コスト |
+| ----------------------------------- | --------------------: |
+| Route 53のhosted zoneと低いクエリ量 |            約USD 0.50 |
+| S3ストレージとデプロイリクエスト    |          USD 0.10未満 |
+| CloudFrontの転送・リクエスト        | 無料枠内であればUSD 0 |
+| CloudFrontで使用するACM証明書       |                 USD 0 |
+| Terraformのstateストレージ          |          USD 0.10未満 |
+| **インフラ想定合計**                |  **約USD 0.60〜1.00** |
 
-Domain registration is separate, typically an annual charge determined by the TLD. Budget USD 10-30/year until a domain is selected. AWS states that CloudFront includes monthly transfer/request allowances, Route 53 charges USD 0.50 per hosted zone for the first 25 zones, and ACM non-exportable public certificates used with integrated services have no certificate charge. Pricing should be rechecked before provisioning:
+ドメイン登録費は別枠で、通常はTLDによって決まる年額課金。ドメイン選定までは年間USD 10〜30を見込む。AWSの公開情報によれば、CloudFrontには月間の転送／リクエスト無料枠があり、Route 53は最初の25 hosted zoneまでは1ゾーンあたりUSD 0.50、統合サービスで使うACMのエクスポート不可な公開証明書には証明書料金がかからない。プロビジョニング前に必ず料金を再確認すること。
 
 - https://aws.amazon.com/cloudfront/pricing/
 - https://aws.amazon.com/route53/pricing/
 - https://aws.amazon.com/s3/pricing/
 - https://aws.amazon.com/certificate-manager/pricing/
 
-## Evolution rule
+## 進化のルール
 
-Add a service only when an accepted Story needs a capability the current architecture cannot provide. Record a new ADR when that addition changes a durable boundary, operating model, security posture, or material recurring cost.
+サービスの追加は、承認済みの実装単位が現行アーキテクチャでは提供できない能力を必要とする場合に限る。恒久的な境界・運用モデル・セキュリティ姿勢・継続的なコストに重要な変更が生じる追加を行うときは、新しいADRを記録する。

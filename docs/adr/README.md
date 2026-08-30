@@ -1,20 +1,20 @@
-# Architecture decision records
+# Architecture decision record（ADR）
 
-ADRs capture durable decisions with meaningful alternatives and consequences. They are not meeting notes or a log of every dependency choice.
+ADRは、意味のある代替案と結果を伴う恒久的な決定を記録する。議事録でも、依存関係の選定を逐一記録するログでもない。
 
-## Status values
+## Status値
 
-- `Proposed`: under review and not yet a constraint.
-- `Accepted`: current decision.
-- `Superseded`: replaced by a later ADR, which must link back.
-- `Rejected`: considered but not adopted.
+- `Proposed`: レビュー中で、まだ制約になっていない。
+- `Accepted`: 現在有効な決定。
+- `Superseded`: 後続のADRに置き換えられた。置き換え元のADRは置き換え先へリンクすること。
+- `Rejected`: 検討したが採用しなかった。
 
-## Index
+## 一覧
 
-| ADR                                      | Status   | Decision                                                               |
-| ---------------------------------------- | -------- | ---------------------------------------------------------------------- |
-| [0001](0001-static-first-aws-hosting.md) | Proposed | Use a static-first Next.js deployment on S3 and CloudFront for the MVP |
+| ADR                                      | Status   | 決定内容                                                             |
+| ---------------------------------------- | -------- | -------------------------------------------------------------------- |
+| [0001](0001-static-first-aws-hosting.md) | Proposed | MVP向けにS3とCloudFrontによるstatic-firstなNext.jsデプロイを採用する |
 
-## Template
+## テンプレート
 
-Copy [template.md](template.md) and number the file sequentially.
+[template.md](template.md)をコピーし、ファイル番号を連番で振ること。

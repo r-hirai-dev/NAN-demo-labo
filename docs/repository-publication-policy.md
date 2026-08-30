@@ -1,33 +1,33 @@
-# Repository publication policy
+# リポジトリの公開ポリシー
 
-This repository is public. Commit only material that helps a visitor inspect, build, test, secure, or operate the portfolio without exposing private development context.
+このリポジトリは公開である。訪問者がこのポートフォリオを検証・ビルド・テスト・保護・運用する助けになる内容のみをコミットすること。非公開の開発コンテキストを漏らしてはならない。
 
-## Public and tracked
+## 公開してtrackする対象
 
-- Application source and sanitized public content.
-- Automated tests, fixtures containing synthetic data, and quality configuration.
-- Architecture documents and accepted ADRs.
-- CI/CD definitions, Terraform, dependency manifests, and lockfiles.
-- Reproducible build and deployment instructions.
-- Public issue and pull request context after privacy review.
+- アプリケーションのソースコードと、公開してよい形に整えたコンテンツ。
+- 自動テスト、合成データによるfixture、品質関連の設定。
+- アーキテクチャ文書と承認済みのADR。
+- CI/CDの定義、Terraform、依存関係マニフェスト、lockfile。
+- 再現可能なビルド・デプロイ手順。
+- プライバシーレビュー後の、公開issueとpull requestのやり取り。
 
-Public infrastructure code must use placeholders or variable references for account-specific values. Public content must use only the approved handle, biography, experience, project details, and external links.
+公開するインフラコードは、アカウント固有の値にプレースホルダーまたは変数参照を使うこと。公開するコンテンツは、承認済みのハンドル・経歴・経験・プロジェクト詳細・外部リンクのみを使うこと。
 
-## Local and ignored
+## ローカルに留め、ignoreする対象
 
-- Agent instructions, prompts, model routing, transcripts, and generated review notes.
-- Local Epic/Story/Task backlog, scratch plans, drafts, and unpublished personal content.
-- Credentials, environment values, Terraform state/plans/variable values, account IDs, and private endpoints.
-- Editor state, caches, dependencies, build output, test artifacts, and logs.
+- Agentへの指示、プロンプト、モデルのルーティング設定、対話ログ、生成されたレビューメモ。
+- ローカルのEpic/Story/Taskバックログ、下書きの計画、未公開の個人向けコンテンツ。
+- 認証情報、環境変数の値、Terraformのstate／plan／変数値、アカウントID、非公開エンドポイント。
+- エディタの状態、キャッシュ、依存パッケージ、ビルド成果物、テストアーティファクト、ログ。
 
-The local boundary is `.local/`; root `AGENTS.md` and `CLAUDE.md` remain beside the project only because their tools discover them there. All three paths are ignored explicitly.
+ローカルの境界は`.local/`である。ルート直下の`AGENTS.md`と`CLAUDE.md`は、ツールがそこで発見する仕様のためにプロジェクトの隣に置いているだけで、この3つのパスはすべて明示的にignoreされている。
 
-## Before publishing
+## 公開前に行うこと
 
-1. Run `npm run validate`.
-2. Review `git status --short --ignored` and confirm every tracked file belongs in the public list.
-3. Search the staged diff for secrets, personal identifiers, account IDs, internal hostnames, and unapproved employer information.
-4. Inspect generated Terraform plans and deployment logs locally; never commit them.
-5. Review the final commit from a clean clone before creating the public remote.
+1. `npm run validate`を実行する。
+2. `git status --short --ignored`を確認し、trackされているファイルがすべて公開リストに属することを確かめる。
+3. ステージされた差分に、秘密情報、個人を特定する情報、アカウントID、内部ホスト名、未承認の雇用主情報が含まれていないか検索する。
+4. 生成されたTerraformのplanやデプロイログはローカルで確認し、決してコミットしない。
+5. 公開リモートを作成する前に、クリーンなクローンから最終コミットをレビューする。
 
-`.gitignore` prevents accidental inclusion of known local paths, but it is not a security boundary. If sensitive data is ever committed, remove it from history and rotate the affected credential before publishing.
+`.gitignore`は既知のローカルパスの誤コミットを防ぐが、セキュリティ境界そのものではない。万一機密データがコミットされた場合は、公開前に履歴から取り除き、該当する認証情報をローテーションすること。
