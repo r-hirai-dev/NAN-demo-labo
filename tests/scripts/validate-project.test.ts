@@ -3,6 +3,7 @@ import {
   extractProse,
   japaneseProseRatio,
   JAPANESE_PROSE_RATIO_THRESHOLD,
+  findPublicationBoundaryViolations,
 } from "../../scripts/validate-project.mjs";
 
 describe("extractProse", () => {
@@ -128,5 +129,82 @@ describe("japaneseProseRatio", () => {
       "# 見出し\n\nこの文書は日本語の散文として書かれており、識別子や`npm run build`のようなコマンドだけが英語のままである。";
 
     expect(japaneseProseRatio(markdown)).toBeGreaterThanOrEqual(JAPANESE_PROSE_RATIO_THRESHOLD);
+  });
+});
+
+// このテストファイル自体もtrackedファイルなので`npm run validate`の走査対象になる。
+// 検出パターンに一致する文字列をソース上にそのまま書くと、このテストファイル自身が
+// 公開識別子規約違反として検出されてしまうため、実行時にのみ組み立つ合成値を使い、
+// ソーステキスト上は検出パターンに一致しない形にする。値そのものに秘匿すべき意味は
+// なく、あくまで検査対象パターンとの自己参照を避けるための組み立てである。
+const SYNTHETIC_UNDEFINED_ID = ["ABC", "123"].join("-");
+const SYNTHETIC_ALLOWED_PREFIX_ID = ["SPEC", "123"].join("-");
+const SYNTHETIC_LOCAL_PATH = [".", "local", "/scripts/agent.mjs"].join("");
+
+describe("findPublicationBoundaryViolations", () => {
+  it("公開文書で定義されていない識別子形式を検出する", () => {
+    const content = `この変更は${SYNTHETIC_UNDEFINED_ID}で計画された。`;
+
+    const violations = findPublicationBoundaryViolations(content, "README.md");
+
+    expect(violations).toHaveLength(1);
+    expect(violations[0]).toMatchObject({
+      line: 1,
+      reason: "identifier format not defined in public documentation",
+    });
+  });
+
+  it("ローカル専用パスへの参照を検出する", () => {
+    const content = `設定は${SYNTHETIC_LOCAL_PATH}にある。`;
+
+    const violations = findPublicationBoundaryViolations(content, "README.md");
+
+    expect(violations).toHaveLength(1);
+    expect(violations[0]).toMatchObject({ line: 1, reason: "reference to a local-only path" });
+  });
+
+  it("境界を定義・強制するファイルではローカル専用パス参照ルールを免除する", () => {
+    const content = `${SYNTHETIC_LOCAL_PATH}を説明する文書。`;
+
+    expect(
+      findPublicationBoundaryViolations(content, "docs/repository-publication-policy.md")
+    ).toEqual([]);
+    expect(findPublicationBoundaryViolations(content, "scripts/validate-project.mjs")).toEqual([]);
+    expect(findPublicationBoundaryViolations(content, ".gitignore")).toEqual([]);
+  });
+
+  it("境界を定義・強制するファイルであっても未定義の識別子形式は免除しない", () => {
+    const content = `${SYNTHETIC_UNDEFINED_ID}を説明する文書。`;
+
+    for (const relativePath of [
+      "docs/repository-publication-policy.md",
+      "scripts/validate-project.mjs",
+      ".gitignore",
+    ]) {
+      const violations = findPublicationBoundaryViolations(content, relativePath);
+      expect(violations).toHaveLength(1);
+      expect(violations[0]).toMatchObject({
+        reason: "identifier format not defined in public documentation",
+      });
+    }
+  });
+
+  it("ADR番号（4桁）や規格名の一般表記では誤検知しない", () => {
+    const content = [
+      "詳細はADR-0001を参照。",
+      "This document follows ISO-8601 for dates.",
+      "See RFC-2119 for the meaning of MUST and SHOULD.",
+      "The API responds with UTF-8 encoded JSON.",
+      "CVE-2024-1234 was patched in the latest release.",
+    ].join("\n");
+
+    expect(findPublicationBoundaryViolations(content, "README.md")).toEqual([]);
+  });
+
+  it("公開文書で定義済みの接頭辞は許可される", () => {
+    const content = `この機能は${SYNTHETIC_ALLOWED_PREFIX_ID}で定義されている。`;
+
+    expect(findPublicationBoundaryViolations(content, "README.md")).toHaveLength(1);
+    expect(findPublicationBoundaryViolations(content, "README.md", new Set(["SPEC"]))).toEqual([]);
   });
 });
