@@ -4,17 +4,17 @@ GitHub Actions（`.github/workflows/ci.yml`）は、`main`向けのすべてのp
 
 ## ゲート一覧
 
-| ゲート              | 検証内容                                                                                                         | ローカルでの再現                     |
-| ------------------- | ---------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
-| Validate            | 必須の公開ファイルと公開範囲・ignoreルールの存在、公開ドキュメントの日本語比率（`scripts/validate-project.mjs`） | `npm run validate`                   |
-| Format              | Prettierのフォーマットがリポジトリの規約に沿っているか                                                           | `npm run format:check`               |
-| Lint                | Next.js・アクセシビリティ関連ルールを含むESLintルール                                                            | `npm run lint`                       |
-| Types               | TypeScript strictモードがエラーなくコンパイルできるか                                                            | `npm run typecheck`                  |
-| Unit tests          | Vitest + Testing Libraryによる挙動テストと回帰テスト                                                             | `npm run test`                       |
-| Production build    | CloudFront/S3が配信する静的エクスポート（`out/`）がクリーンにビルドできるか                                      | `npm run build`                      |
-| Accessibility smoke | 公開済みの全ルートでWCAG 2.1 A/AAのaxe違反が0件であること                                                        | `npm run build && npm run test:a11y` |
-| Dependency review   | このpull requestで新規追加・変更された依存関係（pull request限定）                                               | CI上でのみPRとの差分に対して実行     |
-| Dependency audit    | 依存関係ツリー内の既知のhigh/critical脆弱性                                                                      | `npm audit --audit-level=high`       |
+| ゲート              | 検証内容                                                                                                                                                              | ローカルでの再現                     |
+| ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| Validate            | 必須の公開ファイルと公開範囲・ignoreルールの存在、公開ドキュメントの日本語比率、trackedな全ファイルが公開識別子の規約に沿っているか（`scripts/validate-project.mjs`） | `npm run validate`                   |
+| Format              | Prettierのフォーマットがリポジトリの規約に沿っているか                                                                                                                | `npm run format:check`               |
+| Lint                | Next.js・アクセシビリティ関連ルールを含むESLintルール                                                                                                                 | `npm run lint`                       |
+| Types               | TypeScript strictモードがエラーなくコンパイルできるか                                                                                                                 | `npm run typecheck`                  |
+| Unit tests          | Vitest + Testing Libraryによる挙動テストと回帰テスト                                                                                                                  | `npm run test`                       |
+| Production build    | CloudFront/S3が配信する静的エクスポート（`out/`）がクリーンにビルドできるか                                                                                           | `npm run build`                      |
+| Accessibility smoke | 公開済みの全ルートでWCAG 2.1 A/AAのaxe違反が0件であること                                                                                                             | `npm run build && npm run test:a11y` |
+| Dependency review   | このpull requestで新規追加・変更された依存関係（pull request限定）                                                                                                    | CI上でのみPRとの差分に対して実行     |
+| Dependency audit    | 依存関係ツリー内の既知のhigh/critical脆弱性                                                                                                                           | `npm audit --audit-level=high`       |
 
 アクセシビリティスモークは、汎用のE2Eスイートではなく、ビルド済み静的エクスポートに対する狭い範囲のPlaywright + axe-coreチェックである。ルート一覧はハードコードしていない。`tests/a11y/routes.spec.ts`はビルド済みの`out/`ディレクトリを走査して見つかった`index.html`（現時点では`/`、`/projects/`、`/lab/`、`/experience/`。Next.js自身の予約された404/not-foundページは除く）それぞれについて検出可能な違反がないことを確認するので、新しく公開されたページもテストファイルを編集することなく自動的にカバーされる。`scripts/serve-static.mjs`は、このためだけに書かれた小さなNodeの`http`静的ファイルサーバーで、CIジョブが追加のサーバー依存を必要としないようにしている。`trailingSlash: true`のエクスポート形式に合わせて`<route>/`を`<route>/index.html`へ解決し、`out/`の外側へのパスは配信を拒否する。
 
@@ -43,3 +43,7 @@ Branch protectionルール（これらのチェックを"required"にする設�
 ## 文書の言語規約の検査
 
 `scripts/validate-project.mjs`は`git ls-files "*.md"`でtrackedなMarkdownをすべて列挙し、fenced code block・インラインコード・HTMLコメント・front matter・URL・リンクのhref・テーブル区切り行を除いた「散文」部分に含まれる日本語文字（ひらがな・カタカナ・CJK統合漢字）の比率が30%未満のファイルをエラーにする。見出しと導入部だけ日本語で本文が英語のままという中途半端な翻訳も検出できる水準として30%を選んでいる。このリポジトリのドキュメント・ADR・pull request本文は日本語で書くという規約を、レビュー時の注意力だけに頼らず機械的に強制するための検査で、`npm run validate`から実行される。
+
+## 公開識別子規約の検査
+
+同じスクリプトが`git ls-files`でtrackedな全ファイルを走査し、公開文書で定義されていない識別子形式やローカル専用パスへの参照が残っていないかを検査する。境界の詳細は[公開ポリシー](../repository-publication-policy.md)を参照。

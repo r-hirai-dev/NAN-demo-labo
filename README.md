@@ -20,16 +20,16 @@ Node.js 24以上を使用します。
 npm install
 ```
 
-| コマンド               | 内容                                                                         |
-| ---------------------- | ---------------------------------------------------------------------------- |
-| `npm run dev`          | 開発サーバーを起動                                                           |
-| `npm run build`        | 静的エクスポート（`out/`）を生成                                             |
-| `npm run lint`         | ESLint                                                                       |
-| `npm run typecheck`    | TypeScript strict の型検査                                                   |
-| `npm test`             | Vitest によるユニット／コンポーネントテスト                                  |
-| `npm run format:check` | Prettier フォーマットの検証                                                  |
-| `npm run test:a11y`    | ビルド済み静的エクスポートに対する axe スモーク（要 `npm run build` 実行後） |
-| `npm run validate`     | 公開ファイルと公開範囲ルール、公開ドキュメントの日本語比率の検証             |
+| コマンド               | 内容                                                                             |
+| ---------------------- | -------------------------------------------------------------------------------- |
+| `npm run dev`          | 開発サーバーを起動                                                               |
+| `npm run build`        | 静的エクスポート（`out/`）を生成                                                 |
+| `npm run lint`         | ESLint                                                                           |
+| `npm run typecheck`    | TypeScript strict の型検査                                                       |
+| `npm test`             | Vitest によるユニット／コンポーネントテスト                                      |
+| `npm run format:check` | Prettier フォーマットの検証                                                      |
+| `npm run test:a11y`    | ビルド済み静的エクスポートに対する axe スモーク（要 `npm run build` 実行後）     |
+| `npm run validate`     | 公開ファイルと公開範囲ルール、公開ドキュメントの日本語比率、公開識別子規約の検証 |
 
 ## 継続的インテグレーション
 
@@ -47,4 +47,4 @@ npm install
 └── infrastructure/         # Terraform（デプロイ構成・今後）
 ```
 
-Terraformは、実装単位が着手された時点で追加します。ローカルの計画・Agent設定・下書きは公開リポジトリに含めません。
+Terraformは、デプロイを実装する段階になった時点で追加します。公開範囲の境界は[公開ポリシー](docs/repository-publication-policy.md)を参照してください。
